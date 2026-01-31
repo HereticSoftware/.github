@@ -1,4 +1,4 @@
-# Raven Tail
+# Heretic Software
 
 Root repository with defaults for all of the repositories in the organization.
 
