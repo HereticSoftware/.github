@@ -1,0 +1,23 @@
+<Project>
+  <!---->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <!---->
+  <!-- Packagges -->
+  <ItemGroup>
+  </ItemGroup>
+  <!---->
+  <!-- Testing -->
+  <ItemGroup>
+    <PackageVersion Include="TUnit" Version="" />
+    <PackageVersion Include="Verify.TUnit" Version="" />
+  </ItemGroup>
+  <!---->
+  <!-- Versioning & SourceLink -->
+  <ItemGroup>
+    <GlobalPackageReference Include="Microsoft.SourceLink.GitHub" Version="" />
+    <GlobalPackageReference Include="GitVersion.MSBuild" Version="" />
+  </ItemGroup>
+  <!---->
+</Project>
