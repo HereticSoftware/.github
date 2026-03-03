@@ -17,7 +17,7 @@
   <!-- Versioning & SourceLink -->
   <ItemGroup>
     <GlobalPackageReference Include="Microsoft.SourceLink.GitHub" Version="" />
-    <GlobalPackageReference Include="GitVersion.MSBuild" Version="" />
+    <GlobalPackageReference Include="Nerdbank.GitVersioning" Version="" />
   </ItemGroup>
   <!---->
 </Project>
