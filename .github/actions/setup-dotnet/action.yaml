@@ -1,0 +1,15 @@
+name: Setup .NET
+description: Setup .NET based on global.json
+runs:
+  using: composite
+  steps:
+  - name: Read .NET Version
+    shell: pwsh
+    id: dotnet-version
+    run: |
+      $version = (Get-Content .\global.json -Raw | ConvertFrom-Json).sdk.version.TrimEnd('0') + 'x'
+      "version=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+  - name: Setup .NET
+    uses: actions/setup-dotnet@v4
+    with: { dotnet-version: "${{ steps.dotnet-version.outputs.version }}" }
