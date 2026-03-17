@@ -1,0 +1,46 @@
+name: Cake File
+env: { DOTNET_NOLOGO: true }
+on:
+  workflow_call:
+    inputs:
+      file:
+        type: string
+        description: The cake file to execute, defaults to `cake.cs`.
+        default: cake.cs
+      target:
+        type: string
+        required: true
+        description: The target that will be passed to cake as a `target` argument.
+      nuget:
+        type: boolean
+        required: false
+        description: |
+          Whether to use `NuGet/login` action and pass a `NUGET_API_KEY` env variable to cake.
+          You must also provide the `nuget-user` secret.
+    secrets:
+      nuget-user:
+        required: false
+        description: The user passed to the `NuGet/login` action.
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - name: Setup .NET
+        uses: HereticSoftware/.github/.github/actions/setup-dotnet@df5d067c015b2a489cf0b56507c52941cf300a8d
+
+      - name: NuGet Login
+        if: inputs.nuget
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.nuget-login }}
+
+      - name: Cake File
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+          NUGET_SOURCE: https://api.nuget.org/v3/index.json
+        run: dotnet ${{ inputs.file }} -c Release -- target ${{ inputs.target }}
