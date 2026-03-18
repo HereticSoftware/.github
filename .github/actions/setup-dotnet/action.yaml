@@ -3,13 +3,18 @@ description: Setup .NET based on global.json
 runs:
   using: composite
   steps:
-  - name: Read .NET Version
+  - name: Read global.json
     shell: pwsh
-    id: dotnet-version
+    id: global-json
     run: |
-      $version = (Get-Content .\global.json -Raw | ConvertFrom-Json).sdk.version.TrimEnd('0') + 'x'
+      $version = (Get-Content .\global.json -Raw | ConvertFrom-Json).sdk.version
+      $version = $version.Remove($version.LastIndexOf('.')) + '.x'
       "version=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+      $workloads = (Get-Content .\global.json -Raw | ConvertFrom-Json).workloads -join ", "
+      "workloads=$workloads" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
   - name: Setup .NET
-    uses: actions/setup-dotnet@v4
-    with: { dotnet-version: "${{ steps.dotnet-version.outputs.version }}" }
+    uses: actions/setup-dotnet@c2fa09f4bde5ebb9d1777cf28262a3eb3db3ced7 # v5.2.0
+    with:
+      dotnet-version: ${{ steps.global-json.outputs.version }}
+      workloads: ${{ steps.global-json.outputs.workloads }}
