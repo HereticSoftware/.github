@@ -30,7 +30,7 @@ jobs:
         with: { fetch-depth: 0 }
 
       - name: Setup .NET
-        uses: HereticSoftware/.github/.github/actions/setup-dotnet@df5d067c015b2a489cf0b56507c52941cf300a8d
+        uses: HereticSoftware/.github/.github/actions/setup-dotnet@26108d78c88317392d05718fde2c2832f15042f4
 
       - name: NuGet Login
         if: inputs.nuget
