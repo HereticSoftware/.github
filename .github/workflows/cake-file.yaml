@@ -22,7 +22,7 @@ on:
         required: false
         description: The user passed to the `NuGet/login` action.
 jobs:
-  pipeline:
+  cake:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -37,10 +37,10 @@ jobs:
         id: login
         uses: NuGet/login@v1
         with:
-          user: ${{ secrets.nuget-login }}
+          user: ${{ secrets.nuget-user }}
 
       - name: Cake File
         env:
           NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
           NUGET_SOURCE: https://api.nuget.org/v3/index.json
-        run: dotnet ${{ inputs.file }} -c Release -- target ${{ inputs.target }}
+        run: dotnet run ${{ inputs.file }} -c Release -- target ${{ inputs.target }}
